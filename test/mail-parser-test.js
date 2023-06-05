@@ -27,20 +27,20 @@ exports['General tests'] = {
         mailparser.end();
     },
 
-    'Many chunks - split line endings': test => {
+    'Many chunks - split line endings': async test => {
         let chunks = ['Content-Type: text/plain; charset=utf-8\r', '\nSubject: Hi Mom\r\n\r\n', 'hello'];
 
         test.expect(1);
         let mailparser = new MailParser();
 
-        let writeNextChunk = function () {
+        let writeNextChunk = async function () {
             let chunk = chunks.shift();
             if (chunk) {
                 mailparser.write(chunk, 'utf8');
                 if (typeof setImmediate === 'function') {
                     setImmediate(writeNextChunk);
                 } else {
-                    process.nextTick(writeNextChunk);
+                    await writeNextChunk;
                 }
             } else {
                 mailparser.end();
@@ -56,7 +56,7 @@ exports['General tests'] = {
         if (typeof setImmediate === 'function') {
             setImmediate(writeNextChunk);
         } else {
-            process.nextTick(writeNextChunk);
+            await writeNextChunk;
         }
     },
 

@@ -1,15 +1,9 @@
 'use strict';
 
-if (process.argv.length < 3) {
-    process.stdout.write('USAGE: nodejs emailtojson.js filename');
-    process.stdout.write('Example: nodejs emailtojson.js emailfile.eml');
-    return;
-}
-
 const fs = require('fs');
 const MailParser = require('../lib/mail-parser');
 
-const mailpath = process.argv[2];
+const mailpath = ""; // <-- write your filename here
 
 let parser = new MailParser();
 let input = fs.createReadStream(mailpath);
@@ -40,6 +34,6 @@ parser.on('data', data => {
 });
 
 parser.on('end', () => {
-    process.stdout.write(JSON.stringify(mailobj, (k, v) => (k === 'content' || k === 'release' ? undefined : v), 3));
+    console.log(JSON.stringify(mailobj, (k, v) => (k === 'content' || k === 'release' ? undefined : v), 3));
 });
 input.pipe(parser);

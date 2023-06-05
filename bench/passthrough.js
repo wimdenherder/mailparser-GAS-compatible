@@ -4,7 +4,7 @@
 
 const PassThrough = require('stream').PassThrough;
 const randomMessage = require('random-message');
-const messages = Number(process.env.MESSAGES) || 10000;
+const messages = 10000;
 
 const messagesRoot = '/Users/andris/Projects/nodemailer/Gmail/Messages';
 let processed = 0;
